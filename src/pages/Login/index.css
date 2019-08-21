@@ -1,0 +1,27 @@
+.login {
+    padding: 40px 20px;
+}
+
+.login__header {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    padding-bottom: 40px;
+}
+
+.login__input {
+    margin-bottom: 20px;
+}
+
+.login__vertify-code {
+    display: flex;
+}
+
+.login__vertify-code-input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.login__submit {
+    width: 100%;
+}

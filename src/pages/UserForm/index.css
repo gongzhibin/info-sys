@@ -1,0 +1,27 @@
+.user-form {
+    padding: 40px 20px;
+}
+
+.user-form__header {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    padding-bottom: 40px;
+}
+
+.user-form__input {
+    margin-bottom: 20px;
+}
+
+.user-form__vertify-code {
+    display: flex;
+}
+
+.user-form__vertify-code-input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.user-form__submit {
+    width: 100%;
+}
