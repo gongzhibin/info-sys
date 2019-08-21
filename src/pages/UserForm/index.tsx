@@ -3,8 +3,7 @@ import { Input, Button } from 'antd';
 import './index.css';
 
 function userForm() {
-    return (
-        <div className="user-form">
+    return <div className="user-form">
             <header className="user-form__header">填写报名信息</header>
             <div className="user-form__input">
                 <Input placeholder="请输入姓名" size="large"/>
@@ -16,8 +15,7 @@ function userForm() {
                 <Input placeholder="请输入手机号" size="large"/>
             </div>
             <Button className="user-form__submit" size="large" type="primary">报名</Button>
-        </div>
-    )
+        </div>;
 }
 
 export default userForm;
