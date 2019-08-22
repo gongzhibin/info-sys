@@ -2,8 +2,10 @@ import React, { ChangeEvent, useState } from 'react';
 import { Button, Input, message } from 'antd';
 import { isValidTelephone, isValidCode } from '../../util/index';
 import './index.css';
+import { withRouter } from 'react-router';
 
-function login() {
+function Login(props: any) {
+    const { history } = props;
 
     const [telephone, setTelephone] = useState('');
     const [code, setCode] = useState('');
@@ -11,8 +13,8 @@ function login() {
     function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
         const value = event.target.value;
         if(value && isValidTelephone(value)) {
-            if(localStorage.getItem('userPhone')) localStorage.removeItem('userPhone');
-            localStorage.setItem('userPhone', value);
+            if(localStorage.getItem('telephone')) localStorage.removeItem('telephone');
+            localStorage.setItem('telephone', value);
             setTelephone(value);
         } else {
             console.log('is unvalid telephone');
@@ -36,6 +38,7 @@ function login() {
     function handleLogin() {
         // todo Login
         // todo user Form
+        history.push('/userForm');
     }
 
     return <div className="login">
@@ -51,4 +54,4 @@ function login() {
         </div>;
 }
 
-export default login;
+export default withRouter(Login);

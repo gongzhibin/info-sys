@@ -1,12 +1,11 @@
 import React from 'react';
 import './App.css';
-
-import UserForm from './pages/UserForm/index';
+import Routes from './routes/index';
 
 const App: React.FC = () => {
   return (
     <div className="App">
-        <UserForm />
+        <Routes />
     </div>
   );
 }

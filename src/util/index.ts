@@ -15,7 +15,7 @@ export function isValidCode(code: string): boolean {
     return /^\d{6}$/.test(code);
 }
 
-export function isValidIdCardNo(idNo: string, strictValid: boolean): boolean {
+export function isValidIdCardNo(idNo: string, strictValid: boolean = true): boolean {
     const birthReg = /^(?:19\d{2}|20[01]\d)(?:1[0-2]|0?[1-9])(?:3[01]|[12][0-9]|0?[1-9])$/;
     if ( // 非空
         !idNo
@@ -66,4 +66,8 @@ export function isValidIdCardNo(idNo: string, strictValid: boolean): boolean {
  */
 export function isValidEmail(email: string): boolean {
     return /^[\w+-]+(\.[\w+-]+)*@[a-z\d-]+(\.[a-z\d-]+)*\.([a-z]{2,4})$/i.test(email);
+}
+
+export function isValidStudentNo(stdudentNo: string): boolean {
+    return /^\d{8}$/.test(stdudentNo);
 }
