@@ -23,3 +23,19 @@ export function saveUserInfo(data: {
         })
     });
 }
+
+export function getUnconfirmedUserInfoList() {
+    // todo spell error
+    return fetch(`${basePath}/geUnconfirmedUserInfoList`, baseOptions);
+}
+
+export function confirmPay(data: {
+    phoneNumber: string
+}) {
+    return fetch(`${basePath}/confirmPay`, {
+        ...baseOptions,
+        body: JSON.stringify({
+            ...data
+        })
+    });
+}

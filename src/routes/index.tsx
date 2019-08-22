@@ -1,6 +1,7 @@
 import React from 'react';
 import Login from '../pages/Login/index';
 import UserForm from '../pages/UserForm/index';
+import Admin from '../pages/Admin/index';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // then our route config
@@ -12,7 +13,11 @@ const routeConfig= [
     {
         path: "/userForm",
         component: UserForm
-    }
+    },
+    {
+        path: "/admin",
+        component: Admin
+    },
 ];
 
 function Routes() {
