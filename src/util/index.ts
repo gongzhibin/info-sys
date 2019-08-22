@@ -69,5 +69,5 @@ export function isValidEmail(email: string): boolean {
 }
 
 export function isValidStudentNo(stdudentNo: string): boolean {
-    return /^\d{8}$/.test(stdudentNo);
+    return /^[A-Za-z0-9]{8}$/.test(stdudentNo);
 }

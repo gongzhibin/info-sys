@@ -10,7 +10,7 @@ function UserForm() {
     const [id, setId] = useState(localStorage.getItem('id') || '');
     const [studentNo, setStudentNo] = useState(localStorage.getItem('studentNo') || '');
     const [telephone, setTelephone] = useState(localStorage.getItem('telephone') || '');
-    const [hasSubmited, setSubmited] = useState(localStorage.getItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`) || false);
+    const [userSubmitInfo, setUserSubmitInfo] = useState(localStorage.getItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`) || '');
 
     function handleChangeName(e:ChangeEvent<HTMLInputElement>) {
         const val = e.target.value;
@@ -51,8 +51,9 @@ function UserForm() {
     function beforeSubmit() {
         return new Promise((resolve, reject) => {
             if (isValidTelephone(telephone) && isValidName(name) && isValidIdCardNo(id) && isValidStudentNo(studentNo)) {
-                if(hasSubmited || localStorage.getItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`)) {
-                    return reject('请勿重复提交');
+                if(userSubmitInfo && userSubmitInfo === `${name}_${id}_${studentNo}_${telephone}_has_submited` || localStorage.getItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`)) {
+                    setUserSubmitInfo('1');
+                    return reject('你已完成报名');
                 }
                 return resolve('输入校验完成');
             }
@@ -68,26 +69,28 @@ function UserForm() {
                 name,
                 credentialNo: id
             }).then(() => {
-                setSubmited('1');
+                setUserSubmitInfo('1');
                 localStorage.setItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`, '1');
-                message.success('验证码已发送');
+                message.success('报名成功');
             }).catch(err => {
                 console.error(err);
                 message.error('服务器异常');
             })
         }).catch((err) => {
-            message.error(err);
+            message.warning(err);
         })
     }
 
-    return <div className="user-form">
+    function handleReSubmit() {
+        setUserSubmitInfo('');
+    }
+
+    const form = 
+        <div className="user-form">
             <header className="user-form__header">填写报名信息</header>
             <div className="user-form__input">
                 <label className="user-form__input-name">姓名：</label>
-                {/* if(isSubmit) {
-
-                } */}
-                <Input
+                 <Input
                     className="user-form__input-content"
                     placeholder="请输入姓名"
                     size="large"
@@ -95,13 +98,12 @@ function UserForm() {
                     onChange={handleChangeName}
                     suffix={
                         !name 
-                            ? ''
+                            ? <span />
                             : isValidName(name)
                                 ? <Icon type="check-circle" style={{ color: 'rgba(0, 255, 0, .45)' }} />
                                 : <Icon type="exclamation-circle" style={{ color: 'rgba(255, 0, 0, .45)' }}/>
                     }
                 />
-                {/* <div className="user-form__input-content">{name}</div> */}
             </div>
             <div className="user-form__input">
                 <label className="user-form__input-name">身份证：</label>
@@ -113,7 +115,7 @@ function UserForm() {
                     onChange={handleChangeId}
                     suffix={
                         !id
-                            ? ''
+                            ? <span />
                             : isValidIdCardNo(id)
                                 ? <Icon type="check-circle" style={{ color: 'rgba(0, 255, 0, .45)' }} />
                                 : <Icon type="exclamation-circle" style={{ color: 'rgba(255, 0, 0, .45)' }}/>
@@ -129,7 +131,7 @@ function UserForm() {
                     onChange={handleChangeStudentNo}
                     suffix={
                         !studentNo
-                            ? ''
+                            ? <span />
                             : isValidStudentNo(studentNo)
                                 ? <Icon type="check-circle" style={{ color: 'rgba(0, 255, 0, .45)' }} />
                                 : <Icon type="exclamation-circle" style={{ color: 'rgba(255, 0, 0, .45)' }} />
@@ -138,23 +140,49 @@ function UserForm() {
             </div>
             <div className="user-form__input">
                 <label className="user-form__input-name">手机号：</label>
-                <Input
-                    className="user-form__input-content"
-                    placeholder="请输入手机号"
-                    size="large"
-                    value={telephone}
-                    onChange={handleChangeTelephone}
-                    suffix={
-                        !telephone
-                            ? ''
-                            : isValidTelephone(telephone)
-                                ? <Icon type="check-circle" style={{ color: 'rgba(0, 255, 0, .45)' }} />
-                                : <Icon type="exclamation-circle" style={{ color: 'rgba(255, 0, 0, .45)' }} />
-                    }
-                />
+                { isValidTelephone(telephone)
+                    ? <div className="user-form__input-content">{telephone}</div>
+                    : <Input
+                        className="user-form__input-content"
+                        placeholder="请输入手机号"
+                        size="large"
+                        value={telephone}
+                        onChange={handleChangeTelephone}
+                        suffix={
+                            !telephone
+                                ? <span />
+                                : isValidTelephone(telephone)
+                                    ? <Icon type="check-circle" style={{ color: 'rgba(0, 255, 0, .45)' }} />
+                                    : <Icon type="exclamation-circle" style={{ color: 'rgba(255, 0, 0, .45)' }} />
+                        }
+                    />
+                }
             </div>
             <Button className="user-form__submit" size="large" type="primary" onClick={handleSubmit}>报名</Button>
         </div>;
+
+    const info = 
+        <div className="user-form">
+            <header className="user-form__header">学员信息</header>
+            <div className="user-form__input">
+                <label className="user-form__input-name">姓名：</label>
+                <div className="user-form__input-content">{name}</div>
+            </div>
+            <div className="user-form__input">
+                <label className="user-form__input-name">身份证：</label>
+                <div className="user-form__input-content">{id}</div>
+            </div>
+            <div className="user-form__input">
+                <label className="user-form__input-name">学号：</label>
+                <div className="user-form__input-content">{studentNo}</div>
+            </div>
+            <div className="user-form__input">
+                <label className="user-form__input-name">手机号：</label>
+                <div className="user-form__input-content">{telephone}</div>
+            </div>
+            <Button className="user-form__submit" size="large" type="primary" onClick={handleReSubmit}>重新报名</Button>
+        </div>;
+    return userSubmitInfo ? info : form;
 }
 
 export default withRouter(UserForm);
