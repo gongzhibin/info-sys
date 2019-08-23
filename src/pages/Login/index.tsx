@@ -10,7 +10,7 @@ const DEFAULT_TIME = 60;
 function Login(props: any) {
     const { history } = props;
 
-    const [telephone, setTelephone] = useState('');
+    const [telephone, setTelephone] = useState(localStorage.getItem('telephone') || '');
     const [code, setCode] = useState('');
     const [time, setTime] = useState(DEFAULT_TIME);
     const timeRef = useRef(time);
