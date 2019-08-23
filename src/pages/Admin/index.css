@@ -1,0 +1,37 @@
+.admin {
+    padding: 20px 20px 0;
+}
+
+.admin__header {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+
+.admin__item {
+    padding: 10px 10px 5px;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 10px 0 rgba(138,187,237,0.32);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.admin__item-user-info {
+    flex: 1;
+}
+
+.admin__item-user-info-item {
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+
+.admin__item-confirm-buttom {
+    
+}
+
+.admin_submit {
+    margin-top: 20px;
+}
