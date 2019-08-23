@@ -16,11 +16,23 @@
     font-size: 16px;
 }
 
+.user-form__input-border {
+    padding-bottom: 10px;
+}
+
 .user-form__input-name {
-    width: 70px;
+    width: 60px;
+    margin-right: 5px;
+    text-align-last: justify;
+    margin-left: 10px;
+}
+
+.user-form__info {
+    width: 75px;
 }
 
 .user-form__input-content {
+    margin-left: 10px;
     flex: 1;
 }
 
