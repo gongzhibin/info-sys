@@ -7,6 +7,7 @@ import { withRouter } from 'react-router';
 interface userInfo {
     id: string,
     name: string,
+    studentNumber: string,
     phoneNumber: string,
     credentialNo: string,
     isConfirmed: number
@@ -68,7 +69,7 @@ function Admin() {
         <div className="user-form">
             <header className="login__header">管理员登录</header>
             <div className="user-form__input">
-                <label className="user-form__input-name">密码：</label>
+                <label className="user-form__input-name">密码</label>:
                 <Input.Password
                     className="user-form__input-content"
                     placeholder="请输入密码"
@@ -82,10 +83,10 @@ function Admin() {
 
     const withAuth = 
         <div className="admin">
-            <header className="admin__header">报名信息</header>
+            <header className="admin__header">信息</header>
             <Tabs defaultActiveKey="1" onChange={handleShowInfo}>
-                <Tabs.TabPane tab="未确认" key="unConfirmed" />
-                <Tabs.TabPane tab="已确认" key="confirmed" />
+                <Tabs.TabPane tab={`未确认 ( ${unConfirmedList.length} )`} key="unConfirmed" />
+                <Tabs.TabPane tab={`已确认 ( ${confirmedList.length} )`} key="confirmed" />
             </Tabs>
             { (showListType === 'confirmed' ? confirmedList: unConfirmedList).map((info: userInfo) => {
                 return (
@@ -93,12 +94,13 @@ function Admin() {
                     <div className="admin__item">
                         <div className="admin__item-user-info">
                             <div className="admin__item-user-info-item">姓名：{info.name}</div>
+                            <div className="admin__item-user-info-item">学号：{info.studentNumber}</div>
                             <div className="admin__item-user-info-item">手机号：{info.phoneNumber}</div>
                             <div className="admin__item-user-info-item">身份证：{info.credentialNo}</div>
                         </div>
                         { info.isConfirmed === 0
-                            ? <Button className="admin__item-confirm-buttom" type="primary" onClick={() => {handleConfirm(info)}}> 确认付款 </Button>
-                            : <div className="admin__item-confirm-buttom" >已确认付款</div> }
+                            ? <Button className="admin__item-confirm-buttom" type="primary" onClick={() => {handleConfirm(info)}}> 确认已付款 </Button>
+                            : <div className="admin__item-confirm-buttom" >已确认</div> }
                     </div>
                 </div>)
             }) }

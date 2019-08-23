@@ -1,15 +1,20 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState, useRef } from 'react';
 import { Button, Input, message, Icon } from 'antd';
 import { isValidTelephone, isValidCode } from '../../util/index';
+import { getMessageCode, checkMessageCode } from '../../api/index';
 import './index.css';
 import { withRouter } from 'react-router';
+
+const DEFAULT_TIME = 60;
 
 function Login(props: any) {
     const { history } = props;
 
     const [telephone, setTelephone] = useState('');
     const [code, setCode] = useState('');
-    const [validCode, setValidCode] = useState(false);
+    const [time, setTime] = useState(DEFAULT_TIME);
+    const timeRef = useRef(time);
+    timeRef.current = time;
 
     function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
         const value = event.target.value;
@@ -17,34 +22,56 @@ function Login(props: any) {
         if(value && isValidTelephone(value)) {
             if(localStorage.getItem('telephone')) localStorage.removeItem('telephone');
             localStorage.setItem('telephone', value);
-        } else {
-            console.log('is unvalid telephone');
         }
     }
 
     function handleCodeChange(event: ChangeEvent<HTMLInputElement>) {
         const value = event.target.value;
-        setCode(value);
-        if(value && isValidCode(value)) {
-            if(value === '123456') {
-                setValidCode(true);
-            }
-        }
+        setCode(`${value}`);
     }
 
     function handleSendVertifyCode() {
-        // todo send code
-        message.success('验证码已发送');
+        if(!isValidTelephone(telephone)) {
+            return message.error('手机号填写错误');
+        }
+        
+        const timer = setInterval(() => {
+            setTime(timeRef.current - 1);
+            console.log(time, timeRef.current);
+            if (timeRef.current < 0) {
+                clearInterval(timer);
+                setTime(DEFAULT_TIME)
+            }
+        }, 1000);
+
+        getMessageCode({ phoneNumber: telephone }).then(() => {
+            message.success('验证码已发送');
+        }).catch(err => {
+            console.error(err);
+            message.error('服务器异常');
+        })
+
     }
 
     function handleLogin() {
-        // todo Login
-        // todo user Form
-        if (validCode) {
-            history.push('/userForm');
-        } else {
-            message.error('验证码不正确');
+        if(!isValidCode(code)) {
+            return message.error('验证码格式错误');
         }
+        if(!isValidTelephone(telephone)) {
+            return message.error('手机号填写错误');
+        }
+        checkMessageCode({ phoneNumber: telephone, code })
+            .then(res => res.json())
+            .then((res: {
+                code: number,
+                msg: string
+            }) => {
+                if(res && res.code) {
+                    return message.error(res.msg);
+                }
+                return history.push('/userForm');
+            })
+
     }
 
     return <div className="login">
@@ -79,7 +106,10 @@ function Login(props: any) {
                                 : <Icon type="exclamation-circle" style={{ color: 'rgba(255, 0, 0, .45)' }} />
                     }
                 />
-                <Button type="primary" size="large" onClick={handleSendVertifyCode}>发送验证码</Button>
+                { time === DEFAULT_TIME 
+                    ? <Button type="primary" size="large" onClick={handleSendVertifyCode}>发送验证码</Button>
+                    : <Button type="primary" size="large" disabled>{time}秒后重试</Button>
+                }
             </div>
             <Button className="login__submit" size="large" type="primary" onClick={handleLogin}>登录</Button>
         </div>;

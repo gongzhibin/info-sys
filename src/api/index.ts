@@ -9,6 +9,40 @@ const baseOptions = {
     }
 }
 
+export function getMessageCode(data: {
+    phoneNumber: string
+}) {
+    return fetch(`${basePath}/getMessageCode`, {
+        ...baseOptions,
+        body: JSON.stringify({
+            ...data
+        })
+    });
+}
+
+export function checkMessageCode(data: {
+    phoneNumber: string,
+    code: string
+}) {
+    return fetch(`${basePath}/checkMessageCode`, {
+        ...baseOptions,
+        body: JSON.stringify({
+            ...data
+        })
+    });
+}
+
+export function getUserInfoByPhoneNo(data: {
+    phoneNumber: string
+}) {
+    return fetch(`${basePath}/getUserInfoByPhoneNo`, {
+        ...baseOptions,
+        body: JSON.stringify({
+            ...data
+        })
+    })  
+}
+
 export function saveUserInfo(data: {
     studentNumber: string,
     phoneNumber: string,
@@ -24,9 +58,17 @@ export function saveUserInfo(data: {
     });
 }
 
-export function getUnconfirmedUserInfoList() {
-    // todo spell error
-    return fetch(`${basePath}/geUnconfirmedUserInfoList`, baseOptions);
+
+// opType = "UNCONFIRMED" / "CONFIRMED"/
+export function geUserInfoList(data: {
+    opType: string
+}) {
+    return fetch(`${basePath}/geUserInfoList`, {
+        ...baseOptions,
+        body: JSON.stringify({
+            ...data
+        })
+    })
 }
 
 export function confirmPay(data: {

@@ -12,6 +12,7 @@ export function isValidTelephone(phone: string): boolean {
  * @return { boolean }
  */
 export function isValidCode(code: string): boolean {
+    console.error(code);
     return /^\d{6}$/.test(code);
 }
 
@@ -70,4 +71,8 @@ export function isValidEmail(email: string): boolean {
 
 export function isValidStudentNo(stdudentNo: string): boolean {
     return /^[A-Za-z0-9]{8}$/.test(stdudentNo);
+}
+
+export function isValidPassword(password: string) : boolean {
+    return /^[A-Za-z0-9]+$/.test(password);
 }
