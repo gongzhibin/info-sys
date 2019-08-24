@@ -7,11 +7,12 @@ import './index.css';
 import { withRouter } from 'react-router';
 
 function UserForm(props: any) {
-    const query = qs.parse(props.location.search) || {};
-    const adminId =  query.adminId;
+    const queryAdminId = qs.parse(props.location.search).adminId;
+    const transAdminId = typeof queryAdminId === 'string' ? queryAdminId : '';
+    const [adminId] =  useState(localStorage.getItem('adminId') || transAdminId);
     if(adminId) {
         if(localStorage.getItem('adminId')) localStorage.removeItem('adminId');
-        localStorage.setItem('adminId', `${adminId}`);
+        localStorage.setItem('adminId', adminId);
     }
     const localTel = localStorage.getItem('telephone') || '';
     if(!localTel || !isValidTelephone(localTel)) {
@@ -38,7 +39,7 @@ function UserForm(props: any) {
                 setIsConfirmed(isConfirmed);
                 if(isConfirmed === 1) setUserSubmitInfo('1');
             })
-    }, []);
+    }, [telephone]);
 
     function handleChangeName(e:ChangeEvent<HTMLInputElement>) {
         const val = e.target.value;
@@ -112,7 +113,7 @@ function UserForm(props: any) {
                 phoneNumber: telephone,
                 name,
                 credentialNo: id,
-                administratorId: `${adminId}`
+                administratorId: adminId
             }).then(() => {
                 setUserSubmitInfo('1');
                 localStorage.setItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`, '1');

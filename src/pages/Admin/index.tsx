@@ -38,7 +38,7 @@ function Admin() {
             .then(data => {
                 setConfirmedList(data || []);
             });
-    }, [update])
+    }, [update, administratorId])
 
     function handleChangePassword(e:ChangeEvent<HTMLInputElement>) {
         const val = e.target.value;
