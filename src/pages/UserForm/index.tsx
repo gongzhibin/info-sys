@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
+import qs from 'query-string';
 import { Input, Button, message, Icon } from 'antd';
 import { saveUserInfo, getUserInfoByPhoneNo } from '../../api/index';
 import { isValidTelephone, isValidName, isValidIdCardNo, isValidStudentNo } from '../../util/index';
@@ -6,6 +7,12 @@ import './index.css';
 import { withRouter } from 'react-router';
 
 function UserForm(props: any) {
+    const query = qs.parse(props.location.search) || {};
+    const adminId =  query.adminId;
+    if(adminId) {
+        if(localStorage.getItem('adminId')) localStorage.removeItem('adminId');
+        localStorage.setItem('adminId', `${adminId}`);
+    }
     const localTel = localStorage.getItem('telephone') || '';
     if(!localTel || !isValidTelephone(localTel)) {
         props.history.push('/login');
@@ -104,7 +111,8 @@ function UserForm(props: any) {
                 studentNumber: studentNo,
                 phoneNumber: telephone,
                 name,
-                credentialNo: id
+                credentialNo: id,
+                administratorId: `${adminId}`
             }).then(() => {
                 setUserSubmitInfo('1');
                 localStorage.setItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`, '1');
@@ -200,7 +208,8 @@ function UserForm(props: any) {
 
     const info = 
         <div className="user-form">
-            <header className="user-form__header">学员信息</header>
+            <header className="user-form__header">个人信息</header>
+            <div className="user-form__input userForm_toptip"> 个人信息已提交，请找工作人员缴费。若信息有误，请找工作人员备注 </div>
             <div className="user-form__input">
                 <label className="user-form__input-name user-form__info">姓名</label>:
                 <div className="user-form__input-content">{name}</div>
@@ -221,10 +230,10 @@ function UserForm(props: any) {
                 <label className="user-form__input-name user-form__info">缴费状态</label>:
                 <div className="user-form__input-content">{isConfirmed === 0 ? '未确认' : '已确认' }</div>
             </div>
-            { isConfirmed === 0
+            {/* { isConfirmed === 0
                 ? <Button className="user-form__submit" size="large" type="primary" onClick={handleReSubmit}>重新提交</Button>
                 : <span />
-            }
+            } */}
 
         </div>;
     return userSubmitInfo ? info : form;

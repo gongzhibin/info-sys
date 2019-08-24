@@ -19,10 +19,6 @@ function Login(props: any) {
     function handlePhoneChange(event: ChangeEvent<HTMLInputElement>) {
         const value = event.target.value;
         setTelephone(value);
-        if(value && isValidTelephone(value)) {
-            if(localStorage.getItem('telephone')) localStorage.removeItem('telephone');
-            localStorage.setItem('telephone', value);
-        }
     }
 
     function handleCodeChange(event: ChangeEvent<HTMLInputElement>) {
@@ -69,6 +65,10 @@ function Login(props: any) {
                 if(res && res.code) {
                     return message.error(res.msg);
                 }
+
+                if(localStorage.getItem('telephone')) localStorage.removeItem('telephone');
+                localStorage.setItem('telephone', telephone);
+
                 return history.push('/userForm');
             })
 

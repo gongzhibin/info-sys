@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Input, Button, message, Tabs } from 'antd';
-import { geUserInfoList, confirmPay } from '../../api/index';
+import { getUserInfoList, confirmPay } from '../../api/index';
 import './index.css';
 import { withRouter } from 'react-router';
 
@@ -10,6 +10,7 @@ interface userInfo {
     studentNumber: string,
     phoneNumber: string,
     credentialNo: string,
+    sysCtime: string,
     isConfirmed: number
 }
 
@@ -24,13 +25,13 @@ function Admin() {
     const [update, setUpdate] = useState(0);
 
     useEffect(() => {
-        geUserInfoList({ opType: "UNCONFIRMED" })
+        getUserInfoList({ opType: "UNCONFIRMED" })
             .then(res => res.json())
             .then(data => {
                 setUnConfirmedList(data || []);
             });
 
-        geUserInfoList({ opType: "CONFIRMED" })
+        getUserInfoList({ opType: "CONFIRMED" })
             .then(res => res.json())
             .then(data => {
                 setConfirmedList(data || []);
@@ -97,6 +98,7 @@ function Admin() {
                             <div className="admin__item-user-info-item">学号：{info.studentNumber}</div>
                             <div className="admin__item-user-info-item">手机号：{info.phoneNumber}</div>
                             <div className="admin__item-user-info-item">身份证：{info.credentialNo}</div>
+                            <div className="admin__item-user-info-item">时间：{info.sysCtime}</div>
                         </div>
                         { info.isConfirmed === 0
                             ? <Button className="admin__item-confirm-buttom" type="primary" onClick={() => {handleConfirm(info)}}> 确认已付款 </Button>

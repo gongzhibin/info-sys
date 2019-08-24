@@ -47,12 +47,12 @@ export function saveUserInfo(data: {
     studentNumber: string,
     phoneNumber: string,
     name: string,
-    credentialNo: string
+    credentialNo: string,
+    administratorId: string
 }) {
     return fetch(`${basePath}/saveUserInfo`, {
         ...baseOptions,
         body: JSON.stringify({
-            administratorId: '13924672619', // todo
             ...data
         })
     });
@@ -60,10 +60,10 @@ export function saveUserInfo(data: {
 
 
 // opType = "UNCONFIRMED" / "CONFIRMED"/
-export function geUserInfoList(data: {
+export function getUserInfoList(data: {
     opType: string
 }) {
-    return fetch(`${basePath}/geUserInfoList`, {
+    return fetch(`${basePath}/getUserInfoList`, {
         ...baseOptions,
         body: JSON.stringify({
             ...data
