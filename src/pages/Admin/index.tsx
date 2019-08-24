@@ -22,18 +22,18 @@ function Admin() {
     const [unConfirmedList, setUnConfirmedList] = useState([]);
     const [confirmedList, setConfirmedList] = useState([]);
     const [showListType, setShowListType] = useState('unConfirmed');
-    const [adminstratorId, setAdminstratorId] = useState(localStorage.getItem('adminstratorId') || '');
+    const [administratorId, setAdministratorId] = useState(localStorage.getItem('administratorId') || '');
 
     const [update, setUpdate] = useState(0);
 
     useEffect(() => {
-        getUserInfoList({ opType: "UNCONFIRMED",  adminstratorId })
+        getUserInfoList({ opType: "UNCONFIRMED",  administratorId })
             .then(res => res.json())
             .then(data => {
                 setUnConfirmedList(data || []);
             });
 
-        getUserInfoList({ opType: "CONFIRMED" ,  adminstratorId })
+        getUserInfoList({ opType: "CONFIRMED" ,  administratorId })
             .then(res => res.json())
             .then(data => {
                 setConfirmedList(data || []);
@@ -45,9 +45,9 @@ function Admin() {
         setPassword(val);
     }
 
-    function handleAdminstratorId(e:ChangeEvent<HTMLInputElement>) {
+    function handleAdministratorId(e:ChangeEvent<HTMLInputElement>) {
         const val = e.target.value;
-        setAdminstratorId(val);
+        setAdministratorId(val);
     }
 
     function handleLogin() {
@@ -56,8 +56,9 @@ function Admin() {
             if(localStorage.getItem('hasAuthed')) localStorage.removeItem('hasAuthed');
             localStorage.setItem('hasAuthed', `${Date.now()}`);
 
-            if(localStorage.getItem('adminstratorId')) localStorage.removeItem('adminstratorId');
-            localStorage.setItem('adminstratorId', adminstratorId);
+            if(localStorage.getItem('administratorId')) localStorage.removeItem('administratorId');
+            localStorage.setItem('administratorId', administratorId);
+            setUpdate(update + 1);
         } else {
             message.error('密码输入错误');
         }
@@ -85,8 +86,8 @@ function Admin() {
                     className="user-form__input-content"
                     placeholder="请输入管理员ID"
                     size="large"
-                    value={adminstratorId}
-                    onChange={handleAdminstratorId}
+                    value={administratorId}
+                    onChange={handleAdministratorId}
                 />
             </div>
             <div className="user-form__input">
