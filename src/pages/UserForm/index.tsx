@@ -17,14 +17,14 @@ function UserForm(props: any) {
     const [studentNo, setStudentNo] = useState(localStorage.getItem('studentNo') || '');
 
     const [userSubmitInfo, setUserSubmitInfo] = useState(localStorage.getItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`) || '');
-    const [isConfirmed, setIsConfirmed] = useState('0');
+    const [isConfirmed, setIsConfirmed] = useState(0);
 
     useEffect(() => {
         if(!isValidTelephone(telephone)) return;
         getUserInfoByPhoneNo({ phoneNumber: telephone })
             .then(res => res.json())
             .then(res => {
-                const { name = '', studentNumber = '', credentialNo = '', isConfirmed = '0' } = res || {};
+                const { name = '', studentNumber = '', credentialNo = '', isConfirmed = 0 } = res || {};
                 setLocalName(name);
                 setLocalStudentNo(studentNumber);
                 setLocalId(credentialNo);
@@ -219,9 +219,9 @@ function UserForm(props: any) {
             </div>
             <div className="user-form__input">
                 <label className="user-form__input-name user-form__info">缴费状态</label>:
-                <div className="user-form__input-content">{isConfirmed === '0' ? '未确认' : '已确认' }</div>
+                <div className="user-form__input-content">{isConfirmed === 0 ? '未确认' : '已确认' }</div>
             </div>
-            { isConfirmed === '0'
+            { isConfirmed === 0
                 ? <Button className="user-form__submit" size="large" type="primary" onClick={handleReSubmit}>重新提交</Button>
                 : <span />
             }
