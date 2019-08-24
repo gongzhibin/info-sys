@@ -27,13 +27,13 @@ function Admin() {
         geUserInfoList({ opType: "UNCONFIRMED" })
             .then(res => res.json())
             .then(data => {
-                setUnConfirmedList(data);
+                setUnConfirmedList(data || []);
             });
 
         geUserInfoList({ opType: "CONFIRMED" })
             .then(res => res.json())
             .then(data => {
-                setConfirmedList(data);
+                setConfirmedList(data || []);
             });
     }, [update])
 

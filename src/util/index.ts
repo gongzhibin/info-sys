@@ -12,7 +12,6 @@ export function isValidTelephone(phone: string): boolean {
  * @return { boolean }
  */
 export function isValidCode(code: string): boolean {
-    console.error(code);
     return /^\d{6}$/.test(code);
 }
 

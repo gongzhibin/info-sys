@@ -5,11 +5,17 @@ import { isValidTelephone, isValidName, isValidIdCardNo, isValidStudentNo } from
 import './index.css';
 import { withRouter } from 'react-router';
 
-function UserForm() {   
+function UserForm(props: any) {
+    const localTel = localStorage.getItem('telephone') || '';
+    if(!localTel || !isValidTelephone(localTel)) {
+        props.history.push('/login');
+    }
+    const [telephone, setTelephone] = useState(localTel);
+
     const [name, setName] = useState(localStorage.getItem('name') || '');
     const [id, setId] = useState(localStorage.getItem('id') || '');
     const [studentNo, setStudentNo] = useState(localStorage.getItem('studentNo') || '');
-    const [telephone, setTelephone] = useState(localStorage.getItem('telephone') || '');
+
     const [userSubmitInfo, setUserSubmitInfo] = useState(localStorage.getItem(`${name}_${id}_${studentNo}_${telephone}_has_submited`) || '');
     const [isConfirmed, setIsConfirmed] = useState('0');
 
