@@ -1,4 +1,4 @@
-const basePath = 'http://106.52.164.47:18080/api';
+const basePath = 'https://growthmind.xyz/api';
 
 // 生成一个配置 
 const baseOptions = {
