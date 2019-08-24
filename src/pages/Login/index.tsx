@@ -33,7 +33,6 @@ function Login(props: any) {
         
         const timer = setInterval(() => {
             setTime(timeRef.current - 1);
-            console.log(time, timeRef.current);
             if (timeRef.current < 0) {
                 clearInterval(timer);
                 setTime(DEFAULT_TIME)

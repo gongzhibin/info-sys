@@ -209,7 +209,6 @@ function UserForm(props: any) {
     const info = 
         <div className="user-form">
             <header className="user-form__header">个人信息</header>
-            <div className="user-form__input userForm_toptip"> 个人信息已提交，请找工作人员缴费。若信息有误，请找工作人员备注 </div>
             <div className="user-form__input">
                 <label className="user-form__input-name user-form__info">姓名</label>:
                 <div className="user-form__input-content">{name}</div>
@@ -230,6 +229,7 @@ function UserForm(props: any) {
                 <label className="user-form__input-name user-form__info">缴费状态</label>:
                 <div className="user-form__input-content">{isConfirmed === 0 ? '未确认' : '已确认' }</div>
             </div>
+            <div className="user-form__input userForm_toptip"> 个人信息已提交，请找工作人员缴费。若信息有误，请找工作人员备注 </div>
             {/* { isConfirmed === 0
                 ? <Button className="user-form__submit" size="large" type="primary" onClick={handleReSubmit}>重新提交</Button>
                 : <span />

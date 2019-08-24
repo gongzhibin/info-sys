@@ -22,16 +22,18 @@ function Admin() {
     const [unConfirmedList, setUnConfirmedList] = useState([]);
     const [confirmedList, setConfirmedList] = useState([]);
     const [showListType, setShowListType] = useState('unConfirmed');
+    const [adminstratorId, setAdminstratorId] = useState(localStorage.getItem('adminstratorId') || '');
+
     const [update, setUpdate] = useState(0);
 
     useEffect(() => {
-        getUserInfoList({ opType: "UNCONFIRMED" })
+        getUserInfoList({ opType: "UNCONFIRMED",  adminstratorId })
             .then(res => res.json())
             .then(data => {
                 setUnConfirmedList(data || []);
             });
 
-        getUserInfoList({ opType: "CONFIRMED" })
+        getUserInfoList({ opType: "CONFIRMED" ,  adminstratorId })
             .then(res => res.json())
             .then(data => {
                 setConfirmedList(data || []);
@@ -43,11 +45,19 @@ function Admin() {
         setPassword(val);
     }
 
+    function handleAdminstratorId(e:ChangeEvent<HTMLInputElement>) {
+        const val = e.target.value;
+        setAdminstratorId(val);
+    }
+
     function handleLogin() {
         if(password === 'nidemingzi') {
             setHasAuthed(true);
             if(localStorage.getItem('hasAuthed')) localStorage.removeItem('hasAuthed');
             localStorage.setItem('hasAuthed', `${Date.now()}`);
+
+            if(localStorage.getItem('adminstratorId')) localStorage.removeItem('adminstratorId');
+            localStorage.setItem('adminstratorId', adminstratorId);
         } else {
             message.error('密码输入错误');
         }
@@ -69,6 +79,16 @@ function Admin() {
     const withOutAuth = 
         <div className="user-form">
             <header className="login__header">管理员登录</header>
+            <div className="user-form__input">
+                <label className="user-form__input-name">ID</label>:
+                <Input
+                    className="user-form__input-content"
+                    placeholder="请输入管理员ID"
+                    size="large"
+                    value={adminstratorId}
+                    onChange={handleAdminstratorId}
+                />
+            </div>
             <div className="user-form__input">
                 <label className="user-form__input-name">密码</label>:
                 <Input.Password

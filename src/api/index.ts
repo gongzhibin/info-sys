@@ -61,7 +61,8 @@ export function saveUserInfo(data: {
 
 // opType = "UNCONFIRMED" / "CONFIRMED"/
 export function getUserInfoList(data: {
-    opType: string
+    opType: string,
+    adminstratorId: string
 }) {
     return fetch(`${basePath}/getUserInfoList`, {
         ...baseOptions,
