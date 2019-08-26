@@ -3,6 +3,7 @@ import { Input, Button, message, Tabs } from 'antd';
 import { getUserInfoList, confirmPay } from '../../api/index';
 import './index.css';
 import { withRouter } from 'react-router';
+const DEFAULT_CACHE_TIME = 1 // 单位hour
 
 interface userInfo {
     id: string,
@@ -17,7 +18,7 @@ interface userInfo {
 function Admin() {
     const [password, setPassword] = useState('');
     const localHasAuthed = parseInt(localStorage.getItem('hasAuthed') || '0');
-    const isAuthInDate = Math.floor((Date.now() - localHasAuthed)/1000) < 3600 * 12;
+    const isAuthInDate = Math.floor((Date.now() - localHasAuthed)/1000) < 3600 * DEFAULT_CACHE_TIME;
     const [hasAuthed, setHasAuthed] = useState(isAuthInDate || false);
     const [unConfirmedList, setUnConfirmedList] = useState([]);
     const [confirmedList, setConfirmedList] = useState([]);
@@ -64,6 +65,13 @@ function Admin() {
         }
     }
 
+    function handleLogout() {
+        setHasAuthed(false);
+        setAdministratorId('');
+        if(localStorage.getItem('hasAuthed')) localStorage.removeItem('hasAuthed');
+        if(localStorage.getItem('administratorId')) localStorage.removeItem('administratorId');
+    }
+
     function handleShowInfo(key: string) {
         setShowListType(key);
     }
@@ -105,7 +113,11 @@ function Admin() {
 
     const withAuth = 
         <div className="admin">
-            <header className="admin__header">信息</header>
+            <header className="admin__header">
+                <span>信息</span>
+                <Button className="admin__logout" type="primary" onClick={handleLogout}>退出登录</Button>
+            </header>
+
             <Tabs defaultActiveKey="1" onChange={handleShowInfo}>
                 <Tabs.TabPane tab={`未确认 ( ${unConfirmedList.length} )`} key="unConfirmed" />
                 <Tabs.TabPane tab={`已确认 ( ${confirmedList.length} )`} key="confirmed" />

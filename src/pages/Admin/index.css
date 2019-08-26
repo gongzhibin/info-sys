@@ -7,6 +7,12 @@
     font-size: 22px;
     font-weight: bold;
     padding-bottom: 20px;
+    position: relative;
+}
+
+.admin__logout {
+    position: absolute;
+    right: 0;
 }
 
 .admin__item {
